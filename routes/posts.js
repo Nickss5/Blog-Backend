@@ -8,7 +8,7 @@ const verifyToken = require('../verifyToken')
 
 //CREATE 
 
-router.post('/create',verifyToken, async (req, res) => {
+router.post('/create', async (req, res) => {
     console.log("Received request to create post:", req.body); // Log the incoming request
     try {
         const newPost = new Post(req.body);

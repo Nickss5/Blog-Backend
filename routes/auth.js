@@ -14,7 +14,7 @@ router.post("/register", async (req, res) => {
         const savedUser = await newUser.save()
         res.status(200).json(savedUser)
     } catch (error) {
-        res.status(500).json({ error: error.message })  // Use 'error' instead of 'err'
+        res.status(500).json({ error: error.message })  
     }
 })
 
@@ -45,7 +45,11 @@ router.post("/login", async (req, res) => {
         const { password, ...info } = userObj;
 
         // Set token in a cookie and return user info
-        res.cookie("jwtToken", token).status(200).json(info);
+        res.cookie("jwtToken", token,{
+  httpOnly: true,
+  secure: process.env.NODE_ENV === 'production', // true if using HTTPS in production
+  sameSite: 'None' // Required for cross-origin requests
+}).status(200).json(info);
 
     } catch (err) {
         // Log the error to see what is going wrong
